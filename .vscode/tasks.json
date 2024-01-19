@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"isBackground": true,
+			"label": "npm: dev",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true,
+				"group": "dev"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "postcss:watch",
+			"problemMatcher": [],
+			"isBackground": true,
+			"label": "npm: postcss:watch",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true,
+				"group": "dev"
+			}
+		},
+		{
+			"problemMatcher": [],
+			"isBackground": true,
+			"label": "start dev",
+			"dependsOn": [
+				"npm: dev",
+				"npm: postcss:watch"
+			]
+		},
+	]
+}

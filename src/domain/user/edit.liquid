@@ -1,0 +1,27 @@
+{% layout 'layout', title: "Add user" %}
+{% block script %}
+<script src="/public/form.js" defer></script>
+<script src="/public/password.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('user_form')
+        const validatePasswords = window.createPasswordsValidator(form)
+        window.enhanceForm(form, { onInput: validatePasswords })
+    })
+</script>
+{% endblock %}
+{% block content %}
+<header class="mb-4 pb-1 border-b border-disabled-200">
+    <h2>Edit user</h2>
+</header>
+<main hx-boost="">
+    <form id="user_form" class="flex flex-col gap-4" method="post" action="/users/{{ data.id }}" hx-post="/users/{{ data.id }}" hx-target="#user_form">
+        {% render 'domain/user/partials/user-form.liquid', tabindex: 0, data: data, errors: errors, hidePassword: true %}
+    </form>
+
+    <div class="flex flex-row-reverse justify-start gap-1">
+        <button form="user_form" type="submit">Update</button>
+        <a href="/users" class="button">Cancel</a>
+    </div>
+</main>
+{% endblock %}

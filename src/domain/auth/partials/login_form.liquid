@@ -1,0 +1,18 @@
+<form hx-boost="" id="login_form" class="flex flex-col gap-8 max-w-prose w-full" method="post" hx-post="" hx-target="#login_form" hx-swap="outerHTML">
+    {% if message %}
+        <h3 class="text-error-500 text-center">{{ message }}</h3>
+    {% endif %}
+    <fieldset>
+        <legend>Email</legend>
+        <input type="email" name="email" id="email" class="{{ errors | hasErrors: 'email' | class: 'error' }}" value="{{ email }}" data-error-on="email_error" required>
+        <div id="email_error" class="message">{{ errors | hasError: 'email', 'isNotEmpty' | errorMessage: 'This email is required' }}</div>
+    </fieldset>
+    <fieldset>
+        <legend>Password</legend>
+        <input type="password" name="password" id="password" class="{{ errors | hasErrors: 'password' | class: 'error' }}" value="" data-error-on="password_error" required>
+        <div id="password_error" class="message">{{ errors | hasError: 'password', 'isNotEmpty' | errorMessage: 'This password is required' }}</div>
+    </fieldset>
+    <div class="flex flex-col-reverse items-center">
+        <button type="submit">Login</button>
+    </div>
+</form>

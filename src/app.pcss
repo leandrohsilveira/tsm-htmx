@@ -1,0 +1,24 @@
+@import './styles/tailwind.pcss';
+@import './styles/typography.pcss';
+@import './styles/table.pcss';
+@import './styles/button.pcss';
+@import './styles/form.pcss';
+
+body.js-disabled {
+  .js-disabled {
+    display: block;
+  }
+  .js-enabled {
+    display: none;
+  }
+}
+
+body.js-enabled {
+  .js-disabled {
+    display: none;
+  }
+
+  .js-enabled {
+    display: block;
+  }
+}

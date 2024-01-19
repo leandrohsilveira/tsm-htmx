@@ -1,0 +1,21 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>TSM - {{ title }}</title>
+    <link rel="stylesheet" href="/public/app.css" />
+    <script src='https://unpkg.com/htmx.org@1.9.10'></script>
+    <script src='/public/app.js' defer></script>
+    {% block script %}{% endblock %}
+  </head>
+  <body class="js-disabled">
+    <main class="flex flex-col items-center">
+        <header class="w-full bg-primary-700 text-on-primary-700 py-3 flex justify-center">
+          <h1 class="container px-4">TSM</h1>
+        </header>
+        <section class="container py-8 px-4">
+          {% block content %}{% endblock %}
+        </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+
+{% layout 'layout.liquid', title: "Manage users" %}
+{% block content %}
+<header class="mb-4 pb-1 border-b border-disabled-200">
+    <h2>Manage users</h2>
+</header>
+<main class="flex flex-col gap-4">
+    <div>
+        <a class="button primary" href="/users/add">
+            <div class="icon">{% render 'icons/icon_add.svg' %}</div>
+            Add
+        </a>
+    </div>
+    {% render 'domain/user/partials/user-list.liquid', search: search, result: result %}
+</main>
+{% endblock %}

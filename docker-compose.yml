@@ -1,0 +1,26 @@
+version: '3.1'
+
+volumes:
+  tsm_dbdata:
+
+networks:
+  tsm_database:
+
+services:
+  tsm_database:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - tsm_dbdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: tsm
+      POSTGRES_USER: tsm
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-password}
+    networks:
+      - tsm_database
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tsm']
+      interval: 10s
+      timeout: 5s
+      retries: 20

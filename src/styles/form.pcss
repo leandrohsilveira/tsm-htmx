@@ -1,0 +1,42 @@
+@layer components {
+  form {
+    @apply m-0;
+  }
+  fieldset {
+    .message {
+      @apply hidden;
+    }
+
+    select,
+    input:not([type='checkbox']):not([type='radio']) {
+      @apply p-2 w-full border rounded-md;
+      @apply border-disabled-400 bg-background text-on-background;
+      @apply focus:outline focus:outline-primary-500 focus:border-primary-500 focus-visible:outline focus-visible:outline-primary-500 focus-visible:border-primary-500;
+
+      &.thin {
+        @apply p-1;
+      }
+
+      &.error,
+      &[data-dirty='true']:invalid {
+        @apply border-error-500 focus:outline-error-500 focus:border-error-500 focus-visible:outline-error-500 focus-visible:border-error-500;
+
+        & ~ .message {
+          @apply block text-error-500;
+        }
+      }
+    }
+
+    input[type='radio'] {
+      @apply appearance-none h-4 w-4 rounded-full cursor-pointer transition-all duration-300;
+      @apply outline outline-1 outline-offset-2 outline-disabled-400;
+      @apply bg-background checked:bg-primary-600 hover:checked:bg-primary-600 hover:bg-primary-100;
+      @apply focus-visible:checked:ring-1 focus-visible:checked:ring-primary-500 ring-offset-4;
+      @apply focus:checked:ring-1 focus:checked:ring-primary-500;
+    }
+
+    label {
+      @apply flex flex-row gap-2 items-center cursor-pointer;
+    }
+  }
+}

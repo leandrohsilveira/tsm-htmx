@@ -1,0 +1,36 @@
+<fieldset>
+    <legend>Name</legend>
+    <input type="text" id="name" name="name" tabindex="{{ tabindex }}" value="{{ data.name }}">
+</fieldset>
+<fieldset>
+    <legend>Email</legend>
+    <input type="email" id="email" name="email" tabindex="{{ tabindex }}" class="{{ errors | hasErrors: 'email' | class: 'error' }}" data-error-on="email_error" value="{{ data.email }}" required>
+    <div id="email_error" class="message">
+        {{ errors | hasError: 'email', 'isTaken' | errorMessage: 'This email is already taken' }}
+    </div>
+</fieldset>
+{% if not hidePassword %}
+    <fieldset>
+        <legend>Password</legend>
+        <input type="password" name="password" id="password" tabindex="{{ tabindex }}" minlength="6" data-error-on="password_error" value="{{ data.password }}" required>
+        <div id="password_error" class="message"></div>
+    </fieldset>
+    <fieldset>
+        <legend>Confirm password</legend>
+        <input type="password" name="password_confirm" id="password_confirm" tabindex="{{ tabindex }}" class="{{ errors | hasErrors: 'password_confirm' | class: 'error' }}" minlength="6" data-error-on="password_confirm_error" value="{{ data.password_confirm }}" required>
+        <div id="password_confirm_error" class="message">
+            {{ errors | hasError: 'password_confirm', 'isMatch' | errorMessage: 'The password confirmation does not match' }}
+        </div>
+    </fieldset>
+{% endif %}
+<fieldset>
+    <legend>Role</legend>
+    <div class="flex flex-row gap-6">
+        <label for="role_user">
+            <input type="radio" name="role" id="role_user" tabindex="{{ tabindex }}" value="USER" {{ not data.role or data.role == 'USER' | prop: 'checked' }}> User
+        </label>
+        <label for="role_admin">
+            <input type="radio" name="role" id="role_admin" tabindex="{{ tabindex }}" value="ADMIN" {{ data.role == 'ADMIN' | prop: 'checked' }}> Admin
+        </label>
+    </div>
+</fieldset>

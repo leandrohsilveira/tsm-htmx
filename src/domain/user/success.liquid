@@ -1,0 +1,15 @@
+
+{% layout 'layout.liquid', title: "User saved" %}
+{% block content %}
+<main class="flex flex-col items-center gap-16">
+    <div class="h-60 w-60 rounded-full flex justify-center items-center bg-success-600 text-on-success-600">
+        <span class="material-symbols-outlined text-[10rem]">done</span>
+    </div>
+
+    <h2>The user {{ data.name | default: data.email }} was successfuly saved</h2>
+
+    <div>
+        <a href="/users" class="button primary">Manage users</a>
+    </div>
+</main>
+{% endblock %}

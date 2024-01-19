@@ -1,0 +1,8 @@
+{% if not checked %}
+    <input type="hidden" name="email.available" id="email.available" required value="">
+{% else if available %}
+    <span class="text-success-600">Email available</span>
+{% else %}
+    <span class="text-error-600">Email unavailable</span>
+    <input type="hidden" name="email.available" id="email.available" required value="">
+{% endif %}

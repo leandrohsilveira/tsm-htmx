@@ -1,0 +1,50 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
+        // "baseUrl": ".",
+        // "paths": {
+        //     "$app": [
+        //         "src"
+        //     ],
+        //     "$app/*": [
+        //         "src/*"
+        //     ],
+        //     "$util": [
+        //         "src/util"
+        //     ],
+        //     "$util/*": [
+        //         "src/util/*"
+        //     ],
+        //     "$domain": [
+        //         "src/domain"
+        //     ],
+        //     "$domain/*": [
+        //         "src/domain/*"
+        //     ],
+        //     "$db": [
+        //         "src/database"
+        //     ],
+        //     "$db/*": [
+        //         "src/database/*"
+        //     ],
+        // },
+        "types": [
+            "node",
+            "fastify",
+            "./src/types.d.ts"
+        ],
+    },
+    "include": [
+        "./src/*.mjs",
+        "./src/**/*.mjs",
+        "./src/*.d.ts",
+        "./src/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules/**",
+        "tailwind.config.js",
+        "postcss.config.js"
+    ]
+}

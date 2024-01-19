@@ -1,0 +1,20 @@
+
+{% layout 'layout.liquid', title: "Manage users" %}
+{% block script %}
+<script src="/public/form.js"></script>
+<script>
+    htmx.onLoad(() => {
+        const form = document.getElementById("login_form")
+
+        window.enhanceForm(form)
+    })
+</script>
+{% endblock %}
+{% block content %}
+<header class="mb-4 pb-1 text-center">
+    <h2>Login</h2>
+</header>
+<main class="flex gap-4 justify-center">
+    {% render 'domain/auth/partials/login_form.liquid', errors: errors, email: email, message: message %}
+</main>
+{% endblock %}

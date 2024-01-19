@@ -1,0 +1,57 @@
+@layer components {
+  .button,
+  button {
+    @apply w-fit p-2 leading-6 rounded-3xl cursor-pointer flex flex-row items-center gap-1;
+    @apply transition-all duration-300;
+    @apply disabled:cursor-not-allowed;
+
+    & .icon svg,
+    & .icon {
+      @apply h-6 w-6;
+    }
+
+    &[type='submit'],
+    &.primary {
+      @apply bg-primary-500 text-on-primary-500;
+      @apply hover:bg-primary-700 hover:text-on-primary-700;
+      @apply disabled:bg-disabled-400 disabled:text-on-disabled-400;
+      @apply hover:disabled:bg-disabled-400 hover:disabled:text-on-disabled-400;
+
+      .icon svg {
+        @apply fill-on-primary-500 hover:fill-on-primary-700 disabled:fill-on-disabled-400 hover:disabled:fill-on-disabled-400;
+      }
+    }
+
+    &,
+    &.outlined,
+    &.outlined.primary,
+    &.outlined[type='submit'] {
+      @apply bg-transparent border-2 border-primary-500 text-primary-500;
+      @apply hover:bg-primary-500 hover:bg-opacity-15;
+      @apply disabled:hover:bg-opacity-0;
+      @apply disabled:text-disabled-400 disabled:border-disabled-400;
+      @apply hover:disabled:text-disabled-400 hover:disabled:border-disabled-400;
+
+      .icon svg {
+        @apply fill-primary-500 disabled:fill-disabled-400 hover:disabled:fill-disabled-400;
+      }
+    }
+
+    &.link,
+    &.link[type='submit'] {
+      @apply bg-transparent border-none text-primary-500;
+      @apply hover:bg-primary-500 hover:bg-opacity-15;
+      @apply disabled:hover:bg-opacity-0;
+      @apply disabled:text-disabled-400;
+      @apply hover:disabled:text-disabled-400;
+
+      .icon svg {
+        @apply fill-primary-500 disabled:fill-disabled-400 hover:disabled:fill-disabled-400;
+      }
+    }
+
+    &.thin {
+      @apply p-1 px-2;
+    }
+  }
+}

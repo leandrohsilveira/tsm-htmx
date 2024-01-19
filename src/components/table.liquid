@@ -1,0 +1,93 @@
+<form id='{{ id }}_table_content' hx-boost="" hx-get='{{ get_url }}' hx-target='#{{ id }}_table_content' hx-swap="outerHTML" hx-trigger="submit, input from:#{{ id }}_limit, input from:#{{ id }}_search delay:300ms">
+  <table>
+    <thead>
+      <tr>
+        <td colspan="3" class="thin">
+          <div class="w-full flex flex-row gap-1 items-end">
+            <fieldset>
+              <legend>Search</legend>
+              <input type="text" name="search" id="{{ id }}_search" value="{{ search }}">
+            </fieldset>
+            <div>
+              <button class="thin outlined" type="submit" name="page" value="1">
+                Search
+                <div class="icon">{% render 'icons/icon_search.svg' %}</div>
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% block header %}{% endblock %}
+    </thead>
+    <tbody>
+      {% block body %}{% endblock %}
+    </tbody>
+    <tfoot>
+      {% block footer %}{% endblock %}
+      <tr>
+        <td colspan='3'>
+          <div class="pagination">
+            <div>Showing {{ result.start }} to {{ result.end }} of {{ result.count }} {{ result.count | plural: "item" }}</div>
+            <div class="limit-input">
+              <fieldset>
+                <select name="limit" id="{{ id }}_limit" class="thin" value="{{ result.limit }}">
+                  <option value="5" {{ not result.limit or result.limit == 5 | prop: 'selected' }}>5 items per page</option>
+                  <option value="10" {{ result.limit == 10 | prop: 'selected' }}>10 items per page</option>
+                  <option value="25" {{ result.limit == 25 | prop: 'selected' }}>25 items per page</option>
+                  <option value="50" {{ result.limit == 50 | prop: 'selected' }}>50 items per page</option>
+                  <option value="100" {{ result.limit == 100 | prop: 'selected' }}>100 items per page</option>
+                </select>
+              </fieldset>
+              <button class="link js-disabled" type="submit" name="page" value="1">Apply</button>
+            </div>
+            <div class="pages">
+              <button 
+                class="link"
+                name="page"
+                value="1"
+                {{ result.page <= 2 | disabled }}
+              >
+                <div class="icon">{% render 'icons/icon_first_page.svg' %}</div>
+              </button>
+              <button 
+                class="link"
+                name="page"
+                value="{{ result.page | minus: 1 }}"
+                {{ result.first | disabled }}
+              >
+                <div class="icon">{% render 'icons/icon_navigate_before.svg' %}</div>
+              </button>
+              {% for index in (1..result.page_count) %}
+                <button 
+                  class='link {{ index == result.page | class: "current" }}'
+                  name="page"
+                  value="{{ index }}"
+                  {{ result.page == index | disabled }}
+                >
+                  <span>{{ index  }}</span>
+                </button>
+              {% endfor %}
+              <button 
+                class="link"
+                name="page"
+                value="{{ result.page | plus: 1 }}"
+                {{ result.last | disabled }}
+              >
+                <div class="icon">{% render 'icons/icon_navigate_next.svg' %}</div>
+              </button>
+              {% assign page_count_last = result.page_count | minus: 1 %}
+              <button 
+                class="link"
+                name="page"
+                value="{{ result.page_count }}"
+                {{ result.page >= page_count_last | disabled}}
+              >
+                <div class="icon">{% render 'icons/icon_last_page.svg' %}</div>
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</form>

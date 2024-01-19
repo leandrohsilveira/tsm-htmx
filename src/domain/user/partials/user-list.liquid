@@ -1,0 +1,25 @@
+{% layout 'components/table.liquid', id: 'users', get_url: '/users', search: search, result: result %}
+{% block header %}
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th class="w-20">#</th>
+  </tr>
+{% endblock %}
+{% block body %}
+  {% for user in result.items %}
+    <tr>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <a href="/users/{{ user.id }}" class="button primary outlined">
+          <div class="icon">{% render 'icons/icon_edit.svg' %}</div>
+        </a>
+      </td>
+    </tr>
+  {% else %}
+    <tr>
+      <td colspan='3'>No content to show</td>
+    </tr>
+  {% endfor %}
+{% endblock %}

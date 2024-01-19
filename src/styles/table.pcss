@@ -1,0 +1,75 @@
+@layer components {
+  table {
+    @apply w-full;
+
+    th,
+    td {
+      @apply p-4 text-left;
+
+      &.numeric {
+        @apply text-right;
+      }
+
+      &.thin {
+        @apply p-0;
+      }
+    }
+
+    tbody {
+      tr {
+        @apply border-b border-disabled-200;
+      }
+    }
+
+    thead {
+      @apply border-b border-primary-500;
+
+      th {
+        @apply text-primary-500;
+      }
+    }
+
+    tfoot {
+      .pagination {
+        @apply w-full flex flex-col justify-center items-center gap-2;
+        @apply md:flex-row md:justify-end md:gap-4;
+
+        .limit-input {
+          @apply flex flex-row justify-end items-center gap-1;
+        }
+
+        .pages {
+          @apply flex flex-row justify-end items-center gap-0.5;
+
+          button {
+            @apply text-primary-600;
+            @apply hover:text-primary-800;
+
+            @apply p-1;
+
+            & .icon svg,
+            & > span {
+              @apply h-6 w-6 flex items-center justify-center;
+              @apply fill-primary-600 hover:fill-primary-800;
+            }
+
+            &:disabled:hover,
+            &:disabled {
+              @apply text-disabled-400;
+
+              & .icon svg,
+              & > span {
+                @apply fill-disabled-400;
+              }
+            }
+
+            &:disabled.current {
+              @apply rounded-full bg-primary-500 disabled:bg-primary-500 disabled:hover:bg-primary-500;
+              @apply rounded-full text-on-primary-500 disabled:text-on-primary-500 disabled:hover:text-on-primary-500;
+            }
+          }
+        }
+      }
+    }
+  }
+}
