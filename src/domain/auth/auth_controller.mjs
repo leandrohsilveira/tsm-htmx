@@ -18,15 +18,15 @@ export function auth_controller(auth_service) {
       })
       if (ok) {
         return reply.auth(data, next)
-      }
-      if (error === 'invalid_credentials') {
+      } else {
+        const status = error === 'invalid_credentials' ? 403 : 500
         return reply.htmx_view_or_json(
           {
             page: 'domain/auth/login.liquid',
             partials: { default: 'domain/auth/partials/login_form.liquid' },
-            jsonStatus: 403,
+            jsonStatus: status,
           },
-          { status: 403, error, message },
+          { status: status, error, message },
           { email },
         )
       }
