@@ -19,7 +19,7 @@ const htmx_engine = fastifyPlugin(
     })
     fastify.decorateReply(
       'htmx_view_or_json',
-      function ({ page, partials }, data = {}, context = {}) {
+      function ({ page, partials, jsonStatus = 200 }, data = {}, context = {}) {
         const partialId =
           this.request.headers['hx-partial-id']?.at(0) ?? 'default'
         return this.request.htmx({
@@ -28,7 +28,7 @@ const htmx_engine = fastifyPlugin(
               ...data,
               ...context,
             }),
-          inactive: () => this.view_or_json(page, data, context),
+          inactive: () => this.view_or_json(page, data, context, jsonStatus),
         })
       },
     )

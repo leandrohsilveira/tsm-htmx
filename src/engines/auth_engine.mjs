@@ -29,8 +29,9 @@ const auth_engine = plugin(
             }),
         })
       }
+      const currentUrl = this.request.url
       return this.request.accept({
-        'text/html': () => this.htmx_redirect('/login'),
+        'text/html': () => this.htmx_redirect(`/login?next=${currentUrl}`),
         default: () =>
           this.status(401).send({
             status: 401,

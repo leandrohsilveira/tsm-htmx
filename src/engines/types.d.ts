@@ -43,6 +43,7 @@ interface AppOptions {
 interface HTMXTemplates {
   page: string
   partials: { default: string } & Partial<Record<string, string>>
+  jsonStatus?: number
 }
 
 interface AcceptParams
@@ -71,6 +72,7 @@ declare module 'fastify' {
       template: string,
       data?: object,
       context?: object,
+      jsonStatus?: number,
     ): FastifyReply
     auth(data: AuthClaims, redirect?: string): FastifyReply
     guard(

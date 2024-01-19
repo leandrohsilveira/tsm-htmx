@@ -59,10 +59,10 @@ const view_engine = plugin(
 
     fastify.decorateReply(
       'view_or_json',
-      function (template, data = {}, context = {}) {
+      function (template, data = {}, context = {}, jsonStatus = 200) {
         return this.request.accept({
           'text/html': () => this.view(template, { ...data, ...context }),
-          default: () => this.send(data),
+          default: () => this.status(jsonStatus).send(data),
         })
       },
     )
