@@ -24,11 +24,14 @@ const view_engine = plugin(
     engine.registerFilter('class', (val, name) => (val ? name : ''))
     engine.registerFilter('hasErrors', (val, field) => val && !!val[field])
 
-    engine.registerFilter(
-      'hasError',
-      (val, field, constraint) =>
-        val && val[field] && val[field].indexOf(constraint) >= 0,
-    )
+    engine.registerFilter('hasError', (val, field, constraint) => {
+      if (val && val[field]) {
+        return Array.isArray(val[field])
+          ? val[field].indexOf(constraint)
+          : val[field][constraint]
+      }
+      return false
+    })
 
     engine.registerFilter('errorMessage', (hasError, message) =>
       hasError ? message : '',
@@ -59,10 +62,11 @@ const view_engine = plugin(
 
     fastify.decorateReply(
       'view_or_json',
-      function (template, data = {}, context = {}, jsonStatus = 200) {
+      function (template, data = {}, context = {}) {
         return this.request.accept({
-          'text/html': () => this.view(template, { ...data, ...context }),
-          default: () => this.status(jsonStatus).send(data),
+          'text/html': () =>
+            this.status(200).view(template, { ...data, ...context }),
+          default: () => this.send(data),
         })
       },
     )

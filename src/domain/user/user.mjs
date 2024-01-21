@@ -1,16 +1,11 @@
-import { isEmpty } from 'validator'
+import { pageable_schema } from '../shared/pagination.mjs'
 import { schema } from '../shared/schema.mjs'
-/**
- *
- * @param {import('./user.js').UserCreateData} data
- */
-export function validateUserCreateData(data) {
-  isEmpty(data.name, { ignore_whitespace: true })
-}
 
 export const USER_SCHEMAS = {
   UserCreateData: 'UserCreateData',
   UserEditData: 'UserEditData',
+  ListUsersQuerystring: 'ListUsersQuerystring',
+  UserDisplay: 'UserDisplay',
 }
 
 export const user_edit_data_schema = schema(USER_SCHEMAS.UserEditData, {
@@ -21,15 +16,16 @@ export const user_edit_data_schema = schema(USER_SCHEMAS.UserEditData, {
     role: {
       type: 'string',
       enum: ['USER', 'ADMIN'],
+      default: 'USER',
     },
   },
-  required: ['name', 'email', 'role'],
+  required: ['email', 'role'],
 })
 
 export const user_create_data_schema = schema(USER_SCHEMAS.UserCreateData, {
-  allOf: [{ $ref: USER_SCHEMAS.UserEditData }],
   type: 'object',
   properties: {
+    ...user_edit_data_schema.properties,
     password: {
       type: 'string',
       minLength: 6,
@@ -39,4 +35,18 @@ export const user_create_data_schema = schema(USER_SCHEMAS.UserCreateData, {
       minLength: 6,
     },
   },
+  required: ['password', 'password_confirm', ...user_edit_data_schema.required],
 })
+
+export const list_users_querystirng_schema = schema(
+  USER_SCHEMAS.ListUsersQuerystring,
+  {
+    type: 'object',
+    properties: {
+      ...pageable_schema.properties,
+      search: {
+        type: 'string',
+      },
+    },
+  },
+)

@@ -42,7 +42,7 @@ interface AppOptions {
 
 interface HTMXTemplates {
   page: string
-  partials: { default: string } & Partial<Record<string, string>>
+  partials?: { default: string } & Partial<Record<string, string>>
   jsonStatus?: number
 }
 
@@ -52,6 +52,10 @@ interface AcceptParams
 }
 
 declare module 'fastify' {
+  interface FastifyContextConfig {
+    templates?: HTMXTemplates
+  }
+
   interface FastifyInstance extends Instance {
     db: PrismaClient
     negotiator: Negotiator
@@ -72,7 +76,6 @@ declare module 'fastify' {
       template: string,
       data?: object,
       context?: object,
-      jsonStatus?: number,
     ): FastifyReply
     auth(data: AuthClaims, redirect?: string): FastifyReply
     guard(
@@ -84,6 +87,6 @@ declare module 'fastify' {
      * @param url the url to redirect
      */
     htmx_redirect(url: string): FastifyReply
-    htmx_view_or_json(templates: HTMXTemplates, data?: object, context?: object)
+    htmx_view(data?: object, context?: object)
   }
 }

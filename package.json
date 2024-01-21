@@ -7,8 +7,8 @@
   "scripts": {
     "sync": "prisma generate",
     "format": "prettier --write",
-    "dev": "fastify start -l info -w ./src/index.mjs",
-    "start": "fastify start -l info ./src/index.mjs",
+    "dev": "fastify start -o -w ./src/index.mjs",
+    "start": "fastify start -o ./src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "prisma db seed",
     "postcss": "postcss ./src/app.pcss -o ./public/app.css",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/accept-negotiator": "^1.1.0",
+    "@fastify/ajv-compiler": "^3.5.0",
     "@fastify/cookie": "^9.3.0",
     "@fastify/formbody": "^7.4.0",
     "@fastify/static": "^6.12.0",

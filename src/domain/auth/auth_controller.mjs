@@ -20,15 +20,9 @@ export function auth_controller(auth_service) {
         return reply.auth(data, next)
       } else {
         const status = error === 'invalid_credentials' ? 403 : 500
-        return reply.htmx_view_or_json(
-          {
-            page: 'domain/auth/login.liquid',
-            partials: { default: 'domain/auth/partials/login_form.liquid' },
-            jsonStatus: status,
-          },
-          { status: status, error, message },
-          { email },
-        )
+        return reply
+          .status(status)
+          .htmx_view({ status: status, error, message }, { email })
       }
     },
 
@@ -39,7 +33,7 @@ export function auth_controller(auth_service) {
      * @returns
      */
     async loginPage(req, reply) {
-      return reply.view('domain/auth/login.liquid')
+      return reply.htmx_view()
     },
   }
 }

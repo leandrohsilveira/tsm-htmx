@@ -1,5 +1,6 @@
-import { toResultPage, pageToQuery } from '../shared/pagination.mjs'
+import { pageToQuery, toResultPage } from '../shared/pagination.mjs'
 import { contains } from '../shared/query.mjs'
+import { result } from '../shared/result.mjs'
 
 /**
  * @function
@@ -46,6 +47,37 @@ export function user_service(db) {
         }),
       ])
       return toResultPage(data, count, pageable)
+    },
+
+    async create(data) {
+      return result(async () => {
+        if (data.password === data.password_confirm) {
+          const user = await db.user.create({
+            data: {
+              name: data.name,
+              email: data.email,
+              password: data.password,
+              role: data.role,
+            },
+          })
+          return {
+            ok: true,
+            data: {
+              id: user.id,
+              created_at: user.created_at,
+              updated_at: user.updated_at,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+            },
+          }
+        }
+        return {
+          ok: false,
+          error: 'password_confirmation_mismatch',
+          message: 'The password confirmation does not match',
+        }
+      })
     },
   }
 }

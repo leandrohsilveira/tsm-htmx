@@ -1,18 +1,11 @@
 import auth_routes from './domain/auth/auth_routes.mjs'
 import user_routes from './domain/user/user_routes.mjs'
+import { router } from './util/router.mjs'
 
-/**
- *
- * @param {import("fastify").FastifyInstance} fastify
- */
-export default async function routes(fastify) {
-  fastify.get('/', async (req, reply) => {
-    return reply.view_or_json(
-      'index.liquid',
-      { name: 'John Doe' },
-      { message: 'I exist only in view' },
-    )
-  })
+const app_routes = router('app_routes', async (fastify, { path = '' }) => {
+  fastify
+    .register(user_routes, { path: `${path}/users` })
+    .register(auth_routes, { path })
+})
 
-  fastify.register(user_routes).register(auth_routes)
-}
+export default app_routes

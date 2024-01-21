@@ -43,15 +43,13 @@ const auth_engine = plugin(
 
     fastify.decorateReply('auth', function (data, redirect = '/') {
       const token = fastify.jwt.encode({ sub: data }, { expiresIn: '1 day' })
-      const setCookie = () => {
-        return this.setCookie('authorization', token)
-      }
-
       return this.request.htmx({
-        active: () => setCookie().htmx_redirect(redirect),
+        active: () =>
+          this.setCookie('authorization', token).htmx_redirect(redirect),
         inactive: () =>
           this.request.accept({
-            'text/html': () => setCookie().htmx_redirect(redirect),
+            'text/html': () =>
+              this.setCookie('authorization', token).htmx_redirect(redirect),
             default: () => this.send({ ...data, token }),
           }),
       })

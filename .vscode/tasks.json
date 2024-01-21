@@ -2,11 +2,37 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"type": "docker-compose",
+			"dockerCompose": {
+				"up": {
+					"detached": true,
+					"build": true
+				},
+				"files": [
+					"${workspaceFolder}/docker-compose.yml"
+				]
+			},
+			"label": "docker compose: up",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true,
+				"group": "dev",
+				"close": false
+			}
+		},
+		{
 			"type": "npm",
 			"script": "dev",
 			"problemMatcher": [],
 			"isBackground": true,
 			"label": "npm: dev",
+			"dependsOn": [
+				"docker compose: up"
+			],
+			"dependsOrder": "sequence",
 			"presentation": {
 				"echo": true,
 				"reveal": "always",

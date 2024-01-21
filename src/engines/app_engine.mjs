@@ -1,9 +1,10 @@
 import plugin from 'fastify-plugin'
+import { pageable_schema } from '../domain/shared/pagination.mjs'
 import accept_engine from './accept_engine.mjs'
-import ajv_engine from './ajv_engine.mjs'
 import auth_engine from './auth_engine.mjs'
 import cookie_engine from './cookie_engine.mjs'
 import database_engine from './database_engine.mjs'
+import error_handler_engine from './error_handler_engine.mjs'
 import form_engine from './form_engine.mjs'
 import htmx_engine from './htmx_engine.mjs'
 import jwt_engine from './jwt_engine.mjs'
@@ -19,17 +20,20 @@ const app_engine = plugin(
    * @param {import('./types.js').AppOptions} options
    */
   async (fastify, { jwt, cookie }) => {
-    return await fastify
+    await fastify
       .register(database_engine)
       .register(accept_engine)
       .register(static_engine)
-      .register(ajv_engine)
-      .register(form_engine)
-      .register(htmx_engine)
-      .register(view_engine)
       .register(cookie_engine, cookie)
+      .register(form_engine)
+      .register(view_engine)
+      .register(htmx_engine)
+      .register(error_handler_engine)
       .register(jwt_engine, jwt)
       .register(auth_engine)
+      .after(() => {
+        fastify.addSchema(pageable_schema)
+      })
   },
   { name: app_engine_name },
 )

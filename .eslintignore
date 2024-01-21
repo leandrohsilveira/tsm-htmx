@@ -1,0 +1,5 @@
+public/
+tailwind.config.cjs
+postcss.config.cjs
+.eslintrc.cjs
+config.cjs

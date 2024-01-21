@@ -41,7 +41,7 @@
         "./src/**/*.mjs",
         "./src/*.d.ts",
         "./src/**/*.d.ts"
-    ],
+, "src/config.cjs"    ],
     "exclude": [
         "node_modules/**",
         "tailwind.config.js",

@@ -1,8 +1,28 @@
+import { schema } from './schema.mjs'
+
+export const PAGINATION_SCHEMAS = {
+  Pageable: 'Pageable',
+}
+
 /** @type {import('./pagination.js').Pageable} */
 export const DEFAULT_PAGEABLE = {
   page: 1,
   limit: 5,
 }
+
+export const pageable_schema = schema(PAGINATION_SCHEMAS.Pageable, {
+  type: 'object',
+  properties: {
+    page: {
+      type: 'integer',
+      default: 1,
+    },
+    limit: {
+      type: 'integer',
+      default: 5,
+    },
+  },
+})
 
 /**
  * @param {import('./pagination.js').Pageable} [pageable]

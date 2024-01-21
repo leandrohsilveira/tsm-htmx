@@ -1,3 +1,6 @@
+{% if errors | hasErrors: 'Error' %}
+    <h3 class="text-error-500 text-center">{{ message }}</h3>
+{% endif %}
 <fieldset>
     <legend>Name</legend>
     <input type="text" id="name" name="name" tabindex="{{ tabindex }}" value="{{ data.name }}">
@@ -6,20 +9,24 @@
     <legend>Email</legend>
     <input type="email" id="email" name="email" tabindex="{{ tabindex }}" class="{{ errors | hasErrors: 'email' | class: 'error' }}" data-error-on="email_error" value="{{ data.email }}" required>
     <div id="email_error" class="message">
-        {{ errors | hasError: 'email', 'isTaken' | errorMessage: 'This email is already taken' }}
+        {{ errors | hasError: 'email', 'unique' | errorMessage: 'This email is already taken' }}
+        {{ errors | hasError: 'email', 'format' | errorMessage: 'The value provided is not a valid email' }}
     </div>
 </fieldset>
 {% if not hidePassword %}
     <fieldset>
         <legend>Password</legend>
-        <input type="password" name="password" id="password" tabindex="{{ tabindex }}" minlength="6" data-error-on="password_error" value="{{ data.password }}" required>
-        <div id="password_error" class="message"></div>
+        <input type="password" name="password" id="password" tabindex="{{ tabindex }}" minlength="6" data-error-on="password_error" value="" required>
+        <div id="password_error" class="message">
+            {{ errors | hasError: 'password', 'minLength' | errorMessage: 'Enter a password with a minimum of 6 characters' }}
+        </div>
     </fieldset>
     <fieldset>
         <legend>Confirm password</legend>
-        <input type="password" name="password_confirm" id="password_confirm" tabindex="{{ tabindex }}" class="{{ errors | hasErrors: 'password_confirm' | class: 'error' }}" minlength="6" data-error-on="password_confirm_error" value="{{ data.password_confirm }}" required>
+        <input type="password" name="password_confirm" id="password_confirm" tabindex="{{ tabindex }}" class="{{ errors | hasErrors: 'password_confirm' | class: 'error' }}" minlength="6" data-error-on="password_confirm_error" value="" required>
         <div id="password_confirm_error" class="message">
             {{ errors | hasError: 'password_confirm', 'isMatch' | errorMessage: 'The password confirmation does not match' }}
+            {{ errors | hasError: 'password_confirm', 'minLength' | errorMessage: 'Enter a password with a minimum of 6 characters' }}
         </div>
     </fieldset>
 {% endif %}
