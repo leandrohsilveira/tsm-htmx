@@ -60,16 +60,24 @@ const view_engine = plugin(
       },
     })
 
-    fastify.decorateReply(
-      'view_or_json',
-      function (template, data = {}, context = {}) {
-        return this.request.accept({
-          'text/html': () =>
-            this.status(200).view(template, { ...data, ...context }),
-          default: () => this.send(data),
-        })
-      },
-    )
+    fastify.decorateReply('view_or_json', function (template) {
+      const { data = {}, view_data = {} } = this.context
+      return this.request.accept({
+        'text/html': () =>
+          this.status(200).view(template, { ...data, ...view_data }),
+        default: () => this.send(data),
+      })
+    })
+
+    fastify.decorateReply('data', function (data) {
+      this.context.data = data
+      return this
+    })
+
+    fastify.decorateReply('view_data', function (view_data) {
+      this.context.view_data = view_data
+      return this
+    })
   },
   { name: view_engine_name, dependencies: [accept_engine_name] },
 )

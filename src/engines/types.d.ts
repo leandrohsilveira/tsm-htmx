@@ -3,8 +3,12 @@ import {
   FastifyInstance as Instance,
   FastifyRequest as Req,
   FastifyReply as Reply,
+  FastifyReplyContext as ReplyCtx,
+  RouteShorthandOptions,
+  ContextConfigDefault,
 } from 'fastify'
 import { Negotiator } from '@fastify/accept-negotiator'
+import { MaybePromise } from '../types.js'
 
 type AcceptContentTypes = 'text/html' | 'application/json' | 'application/xml'
 
@@ -60,6 +64,25 @@ declare module 'fastify' {
     db: PrismaClient
     negotiator: Negotiator
     jwt: JwtInstance
+
+    page(
+      url: string | string[],
+      templates: HTMXTemplates,
+      handler?: (
+        request: FastifyRequest,
+        reply: FastifyReply,
+      ) => MaybePromise<FastifyReply>,
+      options?: RouteShorthandOptions,
+    ): FastifyInstance
+    page_post(
+      url: string | string[],
+      templates: HTMXTemplates,
+      handler?: (
+        request: FastifyRequest,
+        reply: FastifyReply,
+      ) => MaybePromise<FastifyReply>,
+      options?: RouteShorthandOptions,
+    ): FastifyInstance
   }
 
   interface FastifyRequest extends Req {
@@ -72,21 +95,25 @@ declare module 'fastify' {
   }
 
   interface FastifyReply extends Reply {
-    view_or_json(
-      template: string,
-      data?: object,
-      context?: object,
-    ): FastifyReply
+    view_or_json(template: string): FastifyReply
     auth(data: AuthClaims, redirect?: string): FastifyReply
     guard(
       params: GuardParams,
       callback: () => FastifyReply | Promise<FastifyReply>,
-    ): FastifyReply | Promise<FastifyReply>
+    ): MaybePromise<FastifyReply>
     /**
      * Checks if HX-Request header is present to add HX-Redirect header to the response, if not do a standard redirect using HTTP Status 303 (See other).
      * @param url the url to redirect
      */
     htmx_redirect(url: string): FastifyReply
-    htmx_view(data?: object, context?: object)
+    htmx_view(templates?: HTMXTemplates): FastifyReply
+    data(data: object): FastifyReply
+    view_data(view_data: object): FastifyReply
+  }
+
+  interface FastifyReplyContext<ContextConfig = ContextConfigDefault>
+    extends ReplyCtx<ContextConfig> {
+    data?: object
+    view_data?: object
   }
 }

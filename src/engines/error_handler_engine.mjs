@@ -37,18 +37,20 @@ const error_handler_engine = fastifyPlugin(
             }),
             {},
           )
-          return reply.status(409).htmx_view(
-            {
+          return reply
+            .status(409)
+            .data({
               statusCode: 409,
               error: 'unique_constraint_violation',
               errors,
-            },
-            { data: req.body },
-          )
+            })
+            .view_data({ data: req.body })
+            .htmx_view()
         }
         return reply
           .status(500)
-          .htmx_view({ statusCode: 500, error: 'internal_server_error' })
+          .data({ statusCode: 500, error: 'internal_server_error' })
+          .htmx_view()
       } else {
         const { validation, validationContext, statusCode = 500 } = error
         if (validation) {
@@ -63,18 +65,20 @@ const error_handler_engine = fastifyPlugin(
               },
             }
           }, {})
-          return reply.status(statusCode).htmx_view(
-            {
+          return reply
+            .status(statusCode)
+            .data({
               statusCode,
               error: 'validation_error',
               errors,
-            },
-            { data: req[validationContext] },
-          )
+            })
+            .view_data({ data: req[validationContext] })
+            .htmx_view()
         }
         return reply
           .status(statusCode)
-          .htmx_view({ statusCode, error: 'internal_server_error' })
+          .data({ statusCode, error: 'internal_server_error' })
+          .htmx_view()
       }
     })
   },

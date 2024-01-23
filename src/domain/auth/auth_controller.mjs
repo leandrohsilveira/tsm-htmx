@@ -19,21 +19,13 @@ export function auth_controller(auth_service) {
       if (ok) {
         return reply.auth(data, next)
       } else {
-        const status = error === 'invalid_credentials' ? 403 : 500
+        const status = 403
         return reply
           .status(status)
-          .htmx_view({ status: status, error, message }, { email })
+          .data({ status, error, message })
+          .view_data({ email })
+          .htmx_view()
       }
-    },
-
-    /**
-     *
-     * @param {import("fastify").FastifyRequest} req
-     * @param {import("fastify").FastifyReply} reply
-     * @returns
-     */
-    async loginPage(req, reply) {
-      return reply.htmx_view()
     },
   }
 }

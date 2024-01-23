@@ -9,24 +9,17 @@ const auth_routes = router('auth_routes', async (fastify, { path = '' }) => {
 
   const controller = auth_controller(auth_service(fastify.db))
 
-  const login_config = {
-    templates: {
-      page: 'domain/auth/login.liquid',
-      partials: { default: 'domain/auth/partials/login_form.liquid' },
-    },
+  const login_templates = {
+    page: 'domain/auth/login.liquid',
+    partials: { default: 'domain/auth/partials/login_form.liquid' },
   }
 
-  fastify.get(`${path}/login`, { config: login_config }, controller.loginPage)
-  fastify.post(
-    `${path}/login`,
-    {
-      schema: {
-        body: { $ref: schemaName(AUTH_SCHEMAS.LoginCredentialsData) },
-      },
-      config: login_config,
+  fastify.page(`${path}/login`, login_templates)
+  fastify.page_post(`${path}/login`, login_templates, controller.login, {
+    schema: {
+      body: { $ref: schemaName(AUTH_SCHEMAS.LoginCredentialsData) },
     },
-    controller.login,
-  )
+  })
 })
 
 export default auth_routes

@@ -22,46 +22,35 @@ const user_routes = router(
       querystring: { $ref: schemaName(USER_SCHEMAS.ListUsersQuerystring) },
     }
 
-    const list_users_config = {
-      templates: {
-        page: 'domain/user/index.liquid',
-        partials: { default: 'domain/user/partials/user-list.liquid' },
-      },
+    const list_users_templates = {
+      page: 'domain/user/index.liquid',
+      partials: { default: 'domain/user/partials/user-list.liquid' },
     }
 
     const add_user_schemas = {
       body: { $ref: schemaName(USER_SCHEMAS.UserCreateData) },
     }
 
-    const add_user_config = {
-      templates: {
-        page: 'domain/user/add.liquid',
-        partials: { default: 'domain/user/partials/user-form.liquid' },
-      },
+    const add_user_templates = {
+      page: 'domain/user/add.liquid',
+      partials: { default: 'domain/user/partials/user-form.liquid' },
     }
 
-    fastify.get(
-      path,
-      { config: list_users_config, schema: list_users_schemas },
-      controller.listUsers,
-    )
+    fastify
+      .page(path, list_users_templates, controller.listUsers, {
+        schema: list_users_schemas,
+      })
 
-    fastify.get(
-      `${path}/add`,
-      { config: add_user_config },
-      controller.addUserPage,
-    )
+      .page(`${path}/add`, add_user_templates, controller.addUserPage)
 
-    fastify.post(
-      path,
-      { config: add_user_config, schema: add_user_schemas },
-      controller.addUser,
-    )
-    fastify.post(
-      `${path}/add`,
-      { config: add_user_config, schema: add_user_schemas },
-      controller.addUser,
-    )
+      .page_post(
+        [path, `${path}/add`],
+        add_user_templates,
+        controller.addUser,
+        {
+          schema: add_user_schemas,
+        },
+      )
   },
 )
 
